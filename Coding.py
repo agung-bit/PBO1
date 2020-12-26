@@ -2,18 +2,18 @@ import sqlite3
 
 class Klinik:
     
-    def membuatAkun(No_Id, Username, Password, Nama_Pegawai):
+    def BuatAkun(Username, Password, Nama_Pegawai):
         con=sqlite3.connect("database.db")
         cur =con.cursor()
-        query = 'INSERT INTO Akun (No_Id, Username, Password, Nama_Pegawai) \
+        query = 'INSERT INTO Akun (Username, Password, Nama_Pegawai) \
             VALUES (\'%s\', \'%s\', \'%s\')' 
-        query = query % (No_Id, Username, Password)
+        query = query % (Username, Password, Nama_Pegawai)
         cur.execute(query)
         con.commit()
         con.close()
-        print("Membuat Akun Sukses")
+        print("Akun Telah Sukses Dibuat")
     
-    def login(Username, Password):
+    def Login(Username, Password):
         con=sqlite3.connect("database.db")
         cur =con.cursor()
         query = 'SELECT Username, Password FROM Akun \
@@ -27,7 +27,7 @@ class Klinik:
             accept_Login = False
 
         if accept_Login == False:
-            print("Login Gagal")
+            print("Maaf Login Gagal, Mohon cek username & password anda")
         elif Username == rows[0][0] and Password == rows[0][1]:
             accept_Login = True
             print("Login Sukses")
@@ -35,4 +35,13 @@ class Klinik:
         
         con.close()
 
-    def administrasi()
+    def Administrasi(Nama, Jenis_Kelamin, Usia, Alamat, Status_Kewarganegaraan, Tempat_tanggal_lahir, Penyakit, Dokter, Agama, No_telepon, Tanggal_Periksa, Jenis_Obat):
+        con=sqlite3.connect("database.db")
+        cur =con.cursor()
+        query = 'INSERT INTO Data Klinik "Happy Health" (Nama, [Jenis Kelamin], Usia, Alamat, [Status Kewarganegaraan], [Tempat tanggal lahir], Penyakit, Dokter, Agama, [No telepon], [Tanggal Periksa], [Jenis Obat]) \
+            VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\')' 
+        query = query % (Nama, Jenis_Kelamin, Usia, Alamat, Status_Kewarganegaraan, Tempat_tanggal_lahir, Penyakit, Dokter, Agama, No_telepon, Tanggal_Periksa, Jenis_Obat)
+        cur.execute(query)
+        con.commit()
+        con.close()
+        print("Data pasien berhasil diunggah")
