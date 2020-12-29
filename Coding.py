@@ -40,7 +40,7 @@ class Klinik:
         con.commit()
         con.close()
         print("Data pasien berhasil diunggah")
-        Akun.program_pegawai()
+        obat.kurangi(Jenis_Obat)
 
     def dataPasien():
         con = sqlite3.connect("database.db")
@@ -98,8 +98,8 @@ class Akun:
         query = query % (Username)
         cursor.execute(query)
         con.commit()
-        rows = cursor.fetchall()
-        print('selamat datang',rows[0][0])
+        row = cursor.fetchall()
+        print('selamat datang',row[0][0])
         con.close()
         Akun.program_pegawai()
 
@@ -192,7 +192,7 @@ class obat():
     def edit(Nama_Obat):
         con = sqlite3.connect("database.db")
         cursor = con.cursor()
-        query = 'SELECT [Nama Obat], [Jumlah Stock] FROM [Data Obat] where [Nama Obat]=\'%s\' '
+        query = 'SELECT [Jumlah Stock] FROM [Data Obat] where [Nama Obat]=\'%s\' '
         query = query % (Nama_Obat)
         cursor.execute(query)
         con.commit()
@@ -207,6 +207,37 @@ class obat():
         con.close()
         print("Data obat telah berhasil ditambah")
         Akun.obat()
+
+    def kurangi(Nama_Obat):
+        con = sqlite3.connect("database.db")
+        cursor = con.cursor()
+        query = 'SELECT [Jumlah Stock] FROM [Data Obat] where [Nama Obat]=\'%s\' '
+        query = query % (Nama_Obat)
+        cursor.execute(query)
+        con.commit()
+        row = cursor.fetchall()
+        baru = row[0][0] - 1
+        query = 'UPDATE [Data Obat] SET [Jumlah Stock] = \'%s\' Where [Nama Obat] = \'%s\' ' 
+        query = query % (baru, Nama_Obat)
+        cursor.execute(query)
+        con.commit()
+        con.close()
+        obat.notif(Nama_Obat)
+
+    def notif(Nama_Obat):
+        con = sqlite3.connect("database.db")
+        cursor = con.cursor()
+        query = 'SELECT [Jumlah Stock] FROM [Data Obat] where [Nama Obat]=\'%s\' '
+        query = query % (Nama_Obat)
+        cursor.execute(query)
+        con.commit()
+        row = cursor.fetchall()
+        if row[0][0] <= 5:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print('!!!!! stock obat menipis, harap melakukan stock ulang !!!!!')
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        con.close()
+        Akun.program_pegawai()
 
 #administrasi jenis obat
 Akun.masuk_akun()
