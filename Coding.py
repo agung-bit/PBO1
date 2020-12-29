@@ -50,7 +50,20 @@ class Klinik:
         hasil = cursor.fetchall()
         con.commit()
         for i in hasil:
-            print(i)
+            print('-------------------------------------------')
+            print('No.Id pasien :',i[0])
+            print('Nama pasien :',i[1])
+            print('Jenis kelamin pasien :',i[2])
+            print('Usia pasien :',i[3])
+            print('Alamat pasien :',i[4])
+            print('Status Kewarganegaraan pasien :',i[5])
+            print('Tempat, tanggal lahir pasien :',i[6])
+            print('Penyakit pasien :',i[7])
+            print('Dokter yang menangani pasien :',i[8])
+            print('Agama pasien :',i[9])
+            print('No.Telepon pasien :',i[10])
+            print('Tanggal periksa pasien :',i[11])
+            print('Jenis obat pasien :',i[12])
         con.close()
         Akun.program_pegawai()
 
@@ -159,7 +172,10 @@ class obat():
         hasil = cursor.fetchall()
         con.commit()
         for i in hasil:
-            print(i)
+            print('-------------------------------------------')
+            print('No.Id Obat :',i[0])
+            print('Nama Obat :',i[1])
+            print('Jumlah Stock Obat :',i[2])
         Akun.obat()
 
     def tambah(Nama_Obat, Jumlah_Stock):
