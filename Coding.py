@@ -211,18 +211,22 @@ class obat():
     def kurangi(Nama_Obat):
         con = sqlite3.connect("database.db")
         cursor = con.cursor()
-        query = 'SELECT [Jumlah Stock] FROM [Data Obat] where [Nama Obat]=\'%s\' '
+        query = 'SELECT [Nama Obat],[Jumlah Stock] FROM [Data Obat] where [Nama Obat]=\'%s\' '
         query = query % (Nama_Obat)
         cursor.execute(query)
         con.commit()
         row = cursor.fetchall()
-        baru = row[0][0] - 1
-        query = 'UPDATE [Data Obat] SET [Jumlah Stock] = \'%s\' Where [Nama Obat] = \'%s\' ' 
-        query = query % (baru, Nama_Obat)
-        cursor.execute(query)
-        con.commit()
+        if (len(row)) == 0:
+            print("Maaf jenis obat yang anda inputkan tidak ada dalam stock")
+            Akun.program_pegawai()
+        elif Nama_Obat == row[0][0]:
+            baru = row[0][1] - 1
+            query = 'UPDATE [Data Obat] SET [Jumlah Stock] = \'%s\' Where [Nama Obat] = \'%s\' ' 
+            query = query % (baru, Nama_Obat)
+            cursor.execute(query)
+            con.commit()
+            obat.notif(Nama_Obat)
         con.close()
-        obat.notif(Nama_Obat)
 
     def notif(Nama_Obat):
         con = sqlite3.connect("database.db")
@@ -239,5 +243,4 @@ class obat():
         con.close()
         Akun.program_pegawai()
 
-#administrasi jenis obat
 Akun.masuk_akun()
